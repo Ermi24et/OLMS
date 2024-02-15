@@ -3,12 +3,12 @@
 Enrollment
 {% endblock %}
 {% block content %}
-<h2>Available Courses</h2>
-<p>click on the tap to enroll to get started with the courses</p>
+<h2 style="color: white;">Available Courses</h2>
+<p style="color: white;">click on the tap to enroll to get started with the courses</p>
 <br>
-<table class="table table-hover table-dark">
+<table class="table table-hover table-dark" style="border-radius: 10px;">
     <thead>
-        <tr>
+        <tr style="background-color: #343a40; color: white;">
             <!-- Your Columns HERE -->
             <th scope="col">Course Id</th>
             <th scope="col">Name</th>
@@ -21,16 +21,20 @@ Enrollment
         <!-- Your rows inside the table HERE: -->
         {% for course in courses %}
         {% include 'includes/courses_modals.html' %}
-        <tr>
+        <tr style="background-color: #495057;">
             <td>{{ course.id }}</td>
             <td>{{ course.name }}</td>
             <td>{{ course.duration_in_month }}</td>
             <td>{{ course.payment }}</td>
             <td>
                 <button class="btn btn-outline btn-info" data-toggle="modal"
-                    data-target="#Modal-MoreInfo-{{ course.id }}">More Info</button>
+                    data-target="#Modal-MoreInfo-{{ course.id }}"
+                    style="background-color: #17a2b8; color: white; padding: 5px 10px; border-radius: 5px;">More
+                    Info</button>
                 <button class="btn btn-outline btn-success" data-toggle="modal"
-                    data-target="#Modal-EnrollCourse-{{ course.id }}">Tap To Enroll</button>
+                    data-target="#Modal-EnrollCourse-{{ course.id }}"
+                    style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 5px;">Tap To
+                    Enroll</button>
             </td>
         </tr>
         {% endfor %}

@@ -12,24 +12,29 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/graphic_design")
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/enrollment/graphic_design")
 def graphic_design():
-    return "<h1>welcome to the graphic design page</h1>"
+    return render_template("graphics_design.html")
 
 
-@app.route("/web_development")
+@app.route("/enrollment/web_development")
 def web_development():
-    return "<h1>welcome to the web development page</h1>"
+    return render_template("web_development.html")
 
 
-@app.route("/video_editing")
+@app.route("/enrollment/video_editing")
 def video_editing():
-    return "<h1>welcome to the video editing page</h1>"
+    return render_template("video_editing.html")
 
 
-@app.route("/digital_marketing")
+@app.route("/enrollment/digital_marketing")
 def digital_marketing():
-    return "<h1>welcome to the digital marketing page</h1>"
+    return render_template("digital_marketing.html")
 
 
 @app.route("/enrollment", methods=['GET', 'POST'])

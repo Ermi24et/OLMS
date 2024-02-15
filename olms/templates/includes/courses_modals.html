@@ -34,7 +34,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalLabel">
+                <h5 class="modal-title" id="ModalLabel" style="color: white;">
                     <!-- -->
                     {{ course.name }}
                 </h5>
@@ -45,7 +45,7 @@
             <div class="modal-body">
                 <form method="POST">
                     {{ purchase_form.hidden_tag() }}
-                    <h4 class="text-center">
+                    <h4 class="text-center" style="color: white;">
                         Are you sure to purchase the course: {{ course.name }} for {{ course.payment }}$ ?
                     </h4>
                     <br>
