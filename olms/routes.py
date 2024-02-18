@@ -89,7 +89,7 @@ def enroll():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    """ a route to register a user"""
+    """ a route to register or sign up a user"""
     form = RegisterForm()
     if form.validate_on_submit():
         user_to_create = User(username=form.username.data,
