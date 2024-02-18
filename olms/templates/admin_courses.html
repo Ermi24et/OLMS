@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}
+Admin - Manage Courses
+{% endblock %}
+{% block content %}
+<h1 style="color: white;">Admin - Manage Courses</h1>
+<form method="POST" class="form-signin" style="color: white; max-width: 400px; margin: auto;">
+    {{ form.hidden_tag() }}
+    <div style="margin-bottom: 10px;">
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}<br>
+    </div>
+    <div style="margin-bottom: 10px;">
+        {{ form.duration.label }}<br>
+        {{ form.duration(class="form-control") }}<br>
+    </div>
+    <div style="margin-bottom: 10px;">
+        {{ form.payment.label }}<br>
+        {{ form.payment(class="form-control") }}<br>
+    </div>
+    <div style="margin-bottom: 10px;">
+        {{ form.description.label }}<br>
+        {{ form.description(class="form-control") }}<br>
+    </div>
+    <button type="submit" class="btn btn-success">Add Course</button>
+</form>
+
+<hr>
+<h2 style="color: white;">Existing Courses</h2>
+<ul style="color: white;">
+    {% for course in courses %}
+    <li>{{ course.name }} - Duration: {{ course.duration }} months, Payment: {{ course.payment }} USD</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,7 +1,7 @@
 from olms import app
 from flask import render_template, redirect, url_for, flash, request
-from olms.models import Course, User
-from olms.forms import RegisterForm, LoginForm, PurchaseCourseForm
+from olms.models import Course, User, Admin
+from olms.forms import RegisterForm, LoginForm, PurchaseCourseForm, CourseForm, AdminLoginForm, AdminRegisterForm
 from olms import db
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -36,6 +36,22 @@ def video_editing():
 def digital_marketing():
     return render_template("digital_marketing.html")
 
+
+@app.route('/admin/courses', methods=['GET', 'POST'])
+def admin_courses():
+    form = CourseForm()
+    if form.validate_on_submit():
+        course = Course(
+            name=form.name.data,
+            duration=form.duration.data,
+            payment=form.payment.data,
+            description=form.description.data
+        )
+        db.session.add(course)
+        db.session.commit()
+        return redirect(url_for('admin_courses'))
+    courses = Course.query.all()
+    return render_template('admin_courses.html', form=form, courses=courses)
 
 @app.route("/enrollment", methods=['GET', 'POST'])
 @login_required
@@ -104,6 +120,42 @@ def login():
         else:
             flash('Username and Password does not exist, please try again', category='danger')
     return render_template('login.html', form=form)
+
+
+# In routes.py
+@app.route("/admin/register", methods=['GET', 'POST'])
+def admin_register():
+    """ a route to register an admin"""
+    form = AdminRegisterForm()
+    if form.validate_on_submit():
+        admin_to_create = Admin(username=form.username.data,
+                              email_address=form.email_address.data,
+                              password=form.password1.data)
+        db.session.add(admin_to_create)
+        db.session.commit()
+        login_user(admin_to_create)
+        flash(f'Created Admin Account Successfully! You are logged in as: {admin_to_create.username}', category='success')
+        return redirect(url_for('admin_courses'))
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'there is an error creating the admin: {err_msg}', category='danger')
+    return render_template('admin_register.html', form=form)
+
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    form = AdminLoginForm()
+    if form.validate_on_submit():
+        attempted_admin = Admin.query.filter_by(username=form.username.data).first()
+        if attempted_admin and attempted_admin.check_password_correction(
+            attempted_password=form.password.data
+        ):
+            login_user(attempted_admin)
+            flash(f'Success! You are logged in as admin: {attempted_admin.username}', category='success')
+            return redirect(url_for('admin_courses'))
+        else:
+            flash('Username and Password does not exist, please try again', category='danger')
+    return render_template('admin_login.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

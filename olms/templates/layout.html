@@ -41,7 +41,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Welcome, {{ current_user.username }}</a>
+          <a class="nav-link">Welcome</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
@@ -57,6 +57,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('about') }}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('admin_login') }}">Admin</a>
         </li>
       </ul>
       {% endif %}

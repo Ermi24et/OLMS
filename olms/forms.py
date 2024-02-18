@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, TextAreaField, SelectField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
-from olms.models import User
+from olms.models import User, Course
 
 
 class RegisterForm(FlaskForm):
@@ -29,8 +29,36 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label='Sign in')
 
 
+class CourseForm(FlaskForm):
+    name = StringField(label='Course Name', validators=[DataRequired()])
+    duration = IntegerField(label='Duration (months)', validators=[DataRequired()])
+    payment = IntegerField(label='Payment', validators=[DataRequired()])
+    description = TextAreaField(label='Description', validators=[DataRequired()])
+    submit = SubmitField(label='Add Course')
+
+
+class AdminRegisterForm(FlaskForm):
+    username = StringField(label='Admin User Name:', validators=[Length(min=3, max=30), DataRequired()])
+    email_address = StringField(label='Admin Email Address:', validators=[Email(), DataRequired()])
+    password1 = PasswordField(label='Admin Password:', validators=[Length(min=6), DataRequired()])
+    password2 = PasswordField(label='Confirm Admin Password:', validators=[EqualTo('password1'), DataRequired()])
+    submit = SubmitField(label='Create Admin Account')
+
+
+class AdminLoginForm(FlaskForm):
+    username = StringField(label='Admin User Name:', validators=[DataRequired()])
+    password = PasswordField(label='Admin Password:', validators=[DataRequired()])
+    submit = SubmitField(label='Sign in as Admin')
+
+
 class PurchaseCourseForm(FlaskForm):
+    purchased_course = SelectField('Select Course', validators=[DataRequired()], coerce=int)
     submit = SubmitField(label='Enroll Now')
+
+    def __init__(self, *args, **kwargs):
+        super(PurchaseCourseForm, self).__init__(*args, **kwargs)
+        self.purchased_course.choices = [(course.id, course.name) for course in Course.query.all()]
+
 
 class WishlistForm(FlaskForm):
     submit = SubmitField(label='Add to my wishlist')
