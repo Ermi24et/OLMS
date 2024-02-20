@@ -11,8 +11,8 @@ Admin - Manage Courses
         {{ form.name(class="form-control") }}<br>
     </div>
     <div style="margin-bottom: 10px;">
-        {{ form.duration.label }}<br>
-        {{ form.duration(class="form-control") }}<br>
+        {{ form.duration_in_month.label }}<br>
+        {{ form.duration_in_month(class="form-control") }}<br>
     </div>
     <div style="margin-bottom: 10px;">
         {{ form.payment.label }}<br>
@@ -29,7 +29,12 @@ Admin - Manage Courses
 <h2 style="color: white;">Existing Courses</h2>
 <ul style="color: white;">
     {% for course in courses %}
-    <li>{{ course.name }} - Duration: {{ course.duration }} months, Payment: {{ course.payment }} USD</li>
+    <li>
+        {{ course.name }} - Duration: {{ course.duration_in_month }} months, Payment: {{ course.payment }} USD
+        <form method="POST" action="{{ url_for('delete_course', course_id=course.id) }}" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}

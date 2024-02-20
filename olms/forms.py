@@ -31,7 +31,7 @@ class LoginForm(FlaskForm):
 
 class CourseForm(FlaskForm):
     name = StringField(label='Course Name', validators=[DataRequired()])
-    duration = IntegerField(label='Duration (months)', validators=[DataRequired()])
+    duration_in_month = IntegerField(label='Duration (months)', validators=[DataRequired()])
     payment = IntegerField(label='Payment', validators=[DataRequired()])
     description = TextAreaField(label='Description', validators=[DataRequired()])
     submit = SubmitField(label='Add Course')
@@ -54,11 +54,3 @@ class AdminLoginForm(FlaskForm):
 class PurchaseCourseForm(FlaskForm):
     purchased_course = SelectField('Select Course', validators=[DataRequired()], coerce=int)
     submit = SubmitField(label='Enroll Now')
-
-    def __init__(self, *args, **kwargs):
-        super(PurchaseCourseForm, self).__init__(*args, **kwargs)
-        self.purchased_course.choices = [(course.id, course.name) for course in Course.query.all()]
-
-
-class WishlistForm(FlaskForm):
-    submit = SubmitField(label='Add to my wishlist')

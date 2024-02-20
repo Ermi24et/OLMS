@@ -40,18 +40,28 @@ def digital_marketing():
 @app.route('/admin/courses', methods=['GET', 'POST'])
 def admin_courses():
     form = CourseForm()
-    if form.validate_on_submit():
-        course = Course(
-            name=form.name.data,
-            duration=form.duration.data,
-            payment=form.payment.data,
-            description=form.description.data
-        )
+    if request.method == 'POST':
+        course = Course(name=form.name.data,
+                        duration_in_month=form.duration_in_month.data,
+                        payment=form.payment.data,
+                        description=form.description.data)
         db.session.add(course)
         db.session.commit()
+        flash(f'Created Course Successfully! {course.name}', category='success')
         return redirect(url_for('admin_courses'))
     courses = Course.query.all()
     return render_template('admin_courses.html', form=form, courses=courses)
+
+
+@app.route('/admin/courses/delete/<int:course_id>', methods=['POST'])
+def delete_course(course_id):
+    if request.method == 'POST':
+        course = Course.query.get_or_404(course_id)
+        db.session.delete(course)
+        db.session.commit()
+        flash(f'Deleted Course Successfully! {course.name}', category='success')
+    return redirect(url_for('admin_courses'))
+
 
 @app.route("/enrollment", methods=['GET', 'POST'])
 @login_required
