@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, IntegerField, TextA
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from olms.models import User, Course
 
+# forms defined here
 
 class RegisterForm(FlaskForm):
     # a class that inherits from FlaskForm and defines a form for user registration
