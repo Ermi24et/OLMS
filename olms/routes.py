@@ -8,37 +8,43 @@ from flask_login import login_user, logout_user, login_required, current_user
 @app.route("/")
 @app.route("/home")
 def home():
-    """ simply return hello world """
+    """ serves a home page """
     return render_template("home.html")
 
 
 @app.route("/about")
 def about():
+    """ serves an about page """
     return render_template("about.html")
 
 
 @app.route("/enrollment/graphic_design")
 def graphic_design():
+    """ serves the page for graphic design content """
     return render_template("graphics_design.html")
 
 
 @app.route("/enrollment/web_development")
 def web_development():
+    """ serves the page for web development content """
     return render_template("web_development.html")
 
 
 @app.route("/enrollment/video_editing")
 def video_editing():
+    """ serves the page for video editing content """
     return render_template("video_editing.html")
 
 
 @app.route("/enrollment/digital_marketing")
 def digital_marketing():
+    """ serves the page for digital marketing content """
     return render_template("digital_marketing.html")
 
 
 @app.route('/admin/courses', methods=['GET', 'POST'])
 def admin_courses():
+    """ a route used to define a page to manage courses for Adminstrator """
     form = CourseForm()
     if request.method == 'POST':
         course = Course(name=form.name.data,
@@ -55,6 +61,7 @@ def admin_courses():
 
 @app.route('/admin/courses/delete/<int:course_id>', methods=['POST'])
 def delete_course(course_id):
+    """ a route that allow the Adminstrator to delete a course """
     if request.method == 'POST':
         course = Course.query.get_or_404(course_id)
         db.session.delete(course)
@@ -66,7 +73,7 @@ def delete_course(course_id):
 @app.route("/enrollment", methods=['GET', 'POST'])
 @login_required
 def enroll():
-    """ returns the enrollment details """
+    """ a route that returns the enrollment details lists of courses """
     purchase_form = PurchaseCourseForm()
     if request.method == "POST":
         purchased_course = request.form.get('purchased_course')
@@ -118,6 +125,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """ a route used to login to user """
     form = LoginForm()
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(username=form.username.data).first()
@@ -154,6 +162,7 @@ def admin_register():
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
+    """ a route that serves the admin login page"""
     form = AdminLoginForm()
     if form.validate_on_submit():
         attempted_admin = Admin.query.filter_by(username=form.username.data).first()
@@ -170,6 +179,7 @@ def admin_login():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
+    """ a route used to olgout the the user and the admin """
     logout_user()
     flash("you have been logged out!", category="info")
     return redirect(url_for("home"))
