@@ -2,7 +2,7 @@ from olms import db, login_manager
 from olms import bcrypt
 from flask_login import UserMixin
 
-# a decorator used to register a function that loads a user from a database based on user's id
+# a decorator used to register a function that loads a users from a database based on user's id
 @login_manager.user_loader
 def load_user(user_id):
     # a function that takes user id as an argument and used for loading user object
