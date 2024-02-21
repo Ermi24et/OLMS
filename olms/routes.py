@@ -5,6 +5,8 @@ from olms.forms import RegisterForm, LoginForm, PurchaseCourseForm, CourseForm, 
 from olms import db
 from flask_login import login_user, logout_user, login_required, current_user
 
+# routes defined here
+
 @app.route("/")
 @app.route("/home")
 def home():
